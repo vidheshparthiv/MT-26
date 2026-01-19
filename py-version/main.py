@@ -2,12 +2,12 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import date
 
-# ---------- CONFIG ----------
+
 DB_HOST = "localhost"
 DB_USER = "root"
 DB_PASSWORD = "root"
 DB_NAME = "money_tracker"
-# ----------------------------
+
 
 
 def get_connection():
