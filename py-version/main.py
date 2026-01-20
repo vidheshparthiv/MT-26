@@ -131,7 +131,7 @@ def main():
         elif choice == "4":
             view_balance()
 
-        elif choice == "5":
+        elif choice=="5":
             print("Goodbye!")
             break
 
