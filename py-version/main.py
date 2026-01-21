@@ -2,13 +2,10 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import date
 
-
 DB_HOST = "localhost"
 DB_USER = "root"
 DB_PASSWORD = "root"
 DB_NAME = "money_tracker"
-
-
 
 def get_connection():
     return mysql.connector.connect(
@@ -17,14 +14,11 @@ def get_connection():
         password=DB_PASSWORD
     )
 
-
 def setup_database():
     conn = get_connection()
     cursor = conn.cursor()
-
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
     cursor.execute(f"USE {DB_NAME}")
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS transactions (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,7 +29,6 @@ def setup_database():
             date DATE NOT NULL
         )
     """)
-
     conn.commit()
     cursor.close()
     conn.close()
@@ -45,14 +38,12 @@ def add_transaction(amount, category, t_type, description):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(f"USE {DB_NAME}")
-
     sql = """
         INSERT INTO transactions (amount, category, type, description, date)
         VALUES (%s, %s, %s, %s, %s)
     """
     cursor.execute(sql, (amount, category, t_type, description, date.today()))
     conn.commit()
-
     cursor.close()
     conn.close()
     print("Transaction added successfully.\n")
@@ -62,15 +53,12 @@ def view_transactions():
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(f"USE {DB_NAME}")
-
     cursor.execute("SELECT * FROM transactions ORDER BY date DESC")
     rows = cursor.fetchall()
-
     print("\nID | Amount | Type | Category | Date | Description")
     print("-" * 60)
     for r in rows:
         print(f"{r[0]} | {r[1]} | {r[3]} | {r[2]} | {r[5]} | {r[4]}")
-
     cursor.close()
     conn.close()
     print()
