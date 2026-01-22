@@ -68,7 +68,21 @@ def view_balance():
     conn.close()
 
 
+def export_to_csv():
+    conn = get_connection()
+    cursor = conn.cursor()
 
+    cursor.execute("SELECT * FROM transactions ORDER BY date DESC")
+    rows = cursor.fetchall()
+
+    with open("transactions.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["ID", "Amount", "Category", "Type", "Description", "Date"])
+        writer.writerows(rows)
+
+    cursor.close()
+    conn.close()
+    print("Data exported to transactions.csv successfully.\n")
 
 
 def delete_transaction():
