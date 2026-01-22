@@ -36,7 +36,6 @@ def add_transaction(amount, category, t_type, description):
 def view_transactions():
     conn = get_connection()
     cursor = conn.cursor()
-
     cursor.execute("SELECT * FROM transactions ORDER BY date DESC")
     rows = cursor.fetchall()
 
@@ -48,7 +47,6 @@ def view_transactions():
     cursor.close()
     conn.close()
     print()
-
 
 def view_balance():
     conn = get_connection()
@@ -66,7 +64,6 @@ def view_balance():
 
     cursor.close()
     conn.close()
-
 
 def export_to_csv():
     conn = get_connection()
