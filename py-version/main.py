@@ -16,11 +16,9 @@ def get_connection():
         database=DB_NAME
     )
 
-
 def add_transaction(amount, category, t_type, description):
     conn = get_connection()
     cursor = conn.cursor()
-
     sql = """
         INSERT INTO transactions (amount, category, type, description, date)
         VALUES (%s, %s, %s, %s, %s)
@@ -38,12 +36,10 @@ def view_transactions():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM transactions ORDER BY date DESC")
     rows = cursor.fetchall()
-
     print("\nID | Amount | Type | Category | Date | Description")
     print("-" * 60)
     for r in rows:
         print(f"{r[0]} | {r[1]} | {r[3]} | {r[2]} | {r[5]} | {r[4]}")
-
     cursor.close()
     conn.close()
     print()
@@ -51,27 +47,22 @@ def view_transactions():
 def view_balance():
     conn = get_connection()
     cursor = conn.cursor()
-
     cursor.execute("""
         SELECT
         SUM(CASE WHEN type='income' THEN amount ELSE 0 END) -
         SUM(CASE WHEN type='expense' THEN amount ELSE 0 END)
         FROM transactions
     """)
-
     balance = cursor.fetchone()[0] or 0
     print(f"\nCurrent Balance: {balance}\n")
-
     cursor.close()
     conn.close()
 
 def export_to_csv():
     conn = get_connection()
     cursor = conn.cursor()
-
     cursor.execute("SELECT * FROM transactions ORDER BY date DESC")
     rows = cursor.fetchall()
-
     with open("transactions.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["ID", "Amount", "Category", "Type", "Description", "Date"])
