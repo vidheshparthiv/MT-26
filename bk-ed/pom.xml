@@ -103,7 +103,9 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.2</version>
-		<relativePath/> 
+		<relativePath/>         at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46) ~[hibernate-core-6.4.4.Final.jar:6.4.4.Final]
+        ... 126 common frames omitted
+
 	</parent>
 	<groupId>bk-ed.spbt</groupId>
 	<artifactId>MT-26</artifactId>
