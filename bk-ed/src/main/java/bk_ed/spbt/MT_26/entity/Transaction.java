@@ -5,7 +5,7 @@ public class Transaction {
     private String type;
     private double amount;
 
-    public Transaction(String id, String type, double amount) {
+    public Transaction(String id, String type, double amount){
         this.id = id;
         this.type = type;
         this.amount = amount;
