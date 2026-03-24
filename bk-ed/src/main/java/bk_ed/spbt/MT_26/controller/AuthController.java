@@ -69,14 +69,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
         try {
-            // Check if user already exists
             if (userRepository.findByUsername(authRequest.getUsername()).isPresent()) {
                 Map<String, String> error = new HashMap<>();
                 error.put("error", "Username already exists");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
             }
-
-            // Create new user
             AppUser newUser = new AppUser();
             newUser.setUsername(authRequest.getUsername());
             newUser.setPassword(passwordEncoder.encode(authRequest.getPassword()));
