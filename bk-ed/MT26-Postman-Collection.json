@@ -1,0 +1,853 @@
+{
+  "info": {
+    "_postman_id": "mt26-money-tracker-api",
+    "name": "MT-26 Money Tracker API",
+    "description": "Complete API for Money Tracker with JWT Authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_doe\",\n  \"password\": \"SecurePassword123!\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new user account. Username must be unique."
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_doe\",\n  \"password\": \"SecurePassword123!\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login with credentials and receive JWT token. Copy the token value and save to jwt_token variable."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard & Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/user/profile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "user",
+                "profile"
+              ]
+            },
+            "description": "Get current authenticated user profile information"
+          }
+        },
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/dashboard/summary",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "dashboard",
+                "summary"
+              ]
+            },
+            "description": "Get dashboard with total income, expenses and balance"
+          }
+        },
+        {
+          "name": "Check Auth (Protected)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/protected",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "protected"
+              ]
+            },
+            "description": "Test if JWT authentication is working"
+          }
+        },
+        {
+          "name": "Hello User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/hello",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hello"
+              ]
+            },
+            "description": "Simple hello endpoint to verify authentication"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/categories?name=Groceries&description=Food and groceries shopping",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "categories"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Groceries"
+                },
+                {
+                  "key": "description",
+                  "value": "Food and groceries shopping"
+                }
+              ]
+            },
+            "description": "Create a new category for organizing transactions.\n\nQuery Parameters:\n- name (required): Category name (e.g., 'Groceries', 'Utilities', 'Entertainment')\n- description (optional): Category description"
+          }
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/categories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "categories"
+              ]
+            },
+            "description": "Retrieve all categories for the authenticated user"
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/categories/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            },
+            "description": "Get a specific category by ID. Replace '1' with actual category ID"
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/categories/1?name=Groceries Updated&description=Food shopping at markets",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Groceries Updated"
+                },
+                {
+                  "key": "description",
+                  "value": "Food shopping at markets"
+                }
+              ]
+            },
+            "description": "Update category details. Replace '1' with actual category ID.\n\nQuery Parameters:\n- name (required): Updated category name\n- description (optional): Updated description"
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/categories/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            },
+            "description": "Delete a category by ID. Replace '1' with actual category ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions?categoryId=1&amount=50.00&type=EXPENSE&description=Groceries shopping",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions"
+              ],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "1"
+                },
+                {
+                  "key": "amount",
+                  "value": "50.00"
+                },
+                {
+                  "key": "type",
+                  "value": "EXPENSE"
+                },
+             ,
+            "description": "Create a new transaction (income or expense).\n\nQuery Parameters:\n- categoryId (required): ID of the category\n- amount (required): Transaction amount (e.g., 50.00)\n- type (required): INCOME or EXPENSE\n- description (optional): Transaction details\n- transactionDate (optional): ISO format date (e.g., 2024-03-23T10:30:00)"
+          }
+        },
+        {
+          "name": "Get All Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions"
+              ]
+            },
+            "description": "Retrieve all transactions for the authenticated user"
+          }
+        },
+        {
+          "name": "Get Transaction by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "1"
+              ]
+            },
+            "description": "Get a specific transaction by ID. Replace '1' with actual transaction ID"
+          }
+        },
+        {
+          "name": "Get Transactions by Type (EXPENSE)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/type/EXPENSE",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "type",
+                "EXPENSE"
+              ]
+            },
+            "description": "Get all expense transactions. Replace EXPENSE with INCOME to get income transactions"
+          }
+        },
+        {
+          "name": "Get Transactions by Type (INCOME)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/type/INCOME",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "type",
+                "INCOME"
+              ]
+            },
+            "description": "Get all income transactions"
+          }
+        },
+        {
+          "name": "Get Transactions by Category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/category/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "category",
+                "1"
+              ]
+            },
+            "description": "Get all transactions for a specific category. Replace '1' with actual category ID"
+          }
+        },
+        {
+          "name": "Get Transactions by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/date-range?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "date-range"
+              ],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01T00:00:00"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31T23:59:59"
+                }
+              ]
+            },
+            "description": "Get transactions within a date range.\n\nQuery Parameters:\n- startDate (required): ISO format start date\n- endDate (required): ISO format end date"
+          }
+        },
+        {
+          "name": "Update Transaction",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/1?categoryId=1&amount=75.00&type=EXPENSE&description=Updated groceries",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "1"
+                },
+                {
+                  "key": "amount",
+                  "value": "75.00"
+                },
+                {
+                  "key": "type",
+                  "value": "EXPENSE"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated groceries"
+                }
+              ]
+            },
+            "description": "Update transaction details. Replace '1' with actual transaction ID.\n\nQuery Parameters:\n- categoryId (required): Updated category ID\n- amount (required): Updated amount\n- type (required): INCOME or EXPENSE\n- description (optional): Updated description"
+          }
+        },
+        {
+          "name": "Delete Transaction",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "1"
+              ]
+            },
+            "description": "Delete a transaction by ID. Replace '1' with actual transaction ID"
+          }
+        },
+        {
+          "name": "Get Balance Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/transactions/summary/balance",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transactions",
+                "summary",
+                "balance"
+              ]
+            },
+            "description": "Get total income, expenses, and balance summary"   "api",
+                "transactions",
+                "summary",
+                "balance"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Budgets",
+      "item": [
+        {
+          "name": "Create Budget",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/budgets?name=Monthly Groceries&description=Grocery budget&limitAmount=300.00&period=MONTHLY",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Monthly Groceries"
+                },
+                {
+                  "key": "description",
+                  "value": "Grocery budget"
+             ,
+            "description": "Create a new budget with spending limit.\n\nQuery Parameters:\n- name (required): Budget name (e.g., 'Monthly Groceries')\n- description (optional): Budget description\n- limitAmount (required): Maximum spending limit\n- period (required): MONTHLY, QUARTERLY, or YEARLY"
+          }
+        },
+        {
+          "name": "Get All Budgets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/budgets",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets"
+              ]
+            },
+            "description": "Retrieve all budgets for the authenticated user"
+          }
+        },
+        {
+          "name": "Get Budget by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/budgets/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets",
+                "1"
+              ]
+            },
+            "description": "Get a specific budget by ID. Replace '1' with actual budget ID"
+          }
+        },
+        {
+          "name": "Get Budgets by Period",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/budgets/period/MONTHLY",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets",
+                "period",
+                "MONTHLY"
+              ]
+            },
+            "description": "Get all budgets for a specific period. Replace MONTHLY with QUARTERLY or YEARLY"
+          }
+        },
+        {
+          "name": "Update Budget",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/budgets/1?name=Updated Budget&description=Updated description&limitAmount=400.00&period=MONTHLY",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Updated Budget"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated description"
+                },
+                {
+                  "key": "limitAmount",
+                  "value": "400.00"
+                },
+                {
+                  "key": "period",
+                  "value": "MONTHLY"
+                }
+              ]
+            },
+            "description": "Update budget details. Replace '1' with actual budget ID.\n\nQuery Parameters:\n- name (required): Updated budget name\n- description (optional): Updated description\n- limitAmount (required): Updated spending limit\n- period (required): MONTHLY, QUARTERLY, or YEARLY"
+          }
+        },
+        {
+          "name": "Delete Budget",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/budgets/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets",
+                "1"
+              ]
+            },
+            "description": "Delete a budget by ID. Replace '1' with actual budget ID" "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "budgets",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
