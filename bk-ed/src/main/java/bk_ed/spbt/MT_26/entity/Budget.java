@@ -48,7 +48,6 @@ public class Budget {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
-
     public Long getId() {
         return id;
     }
