@@ -30,41 +30,39 @@ public class CategoryController {
             @RequestParam String name,
             @RequestParam(required = false) String description,
             Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            Category category = categoryService.createCategory(user, name, description);
-            return ResponseEntity.status(HttpStatus.CREATED).body(category);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        Category category = categoryService.createCategory(user, name, description);
+        return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
     
     @GetMapping
     public ResponseEntity<?> getAllCategories(Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            List<Category> categories = categoryService.getAllCategoriesForUser(user);
-            return ResponseEntity.ok(categories);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        List<Category> categories = categoryService.getAllCategoriesForUser(user);
+        return ResponseEntity.ok(categories);
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id, Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            Category category = categoryService.getCategoryById(id, user);
-            return ResponseEntity.ok(category);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        Category category = categoryService.getCategoryById(id, user);
+        return ResponseEntity.ok(category);
+    }
+    
+    @GetMapping("/search/{name}")
+    public ResponseEntity<?> searchCategoriesByName(@PathVariable String name, Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        List<Category> categories = categoryService.searchCategoriesByName(user, name);
+        return ResponseEntity.ok(categories);
+    }
+    
+    @GetMapping("/count")
+    public ResponseEntity<?> getCategoryCount(Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        long count = categoryService.getCategoryCount(user);
+        Map<String, Long> response = new HashMap<>();
+        response.put("totalCategories", count);
+        return ResponseEntity.ok(response);
     }
     
     @PutMapping("/{id}")
@@ -73,30 +71,36 @@ public class CategoryController {
             @RequestParam String name,
             @RequestParam(required = false) String description,
             Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            Category category = categoryService.updateCategory(id, user, name, description);
-            return ResponseEntity.ok(category);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        Category category = categoryService.updateCategory(id, user, name, description);
+        return ResponseEntity.ok(category);
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id, Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            categoryService.deleteCategory(id, user);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Category deleted successfully");
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        categoryService.deleteCategory(id, user);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Category deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+    
+    @DeleteMapping
+    public ResponseEntity<?> deleteMultipleCategories(
+            @RequestBody List<Long> categoryIds,
+            Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        categoryService.deleteMultipleCategories(user, categoryIds);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Categories deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/active/list")
+    public ResponseEntity<?> getActiveCategories(Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        List<Category> categories = categoryService.getActiveCategoriesForUser(user);
+        return ResponseEntity.ok(categories);
     }
     
     private AppUser getUserFromAuthentication(Authentication authentication) {
