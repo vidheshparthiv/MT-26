@@ -33,54 +33,53 @@ public class BudgetController {
             @RequestParam BigDecimal limitAmount,
             @RequestParam String period,
             Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            Budget budget = budgetService.createBudget(user, name, description, limitAmount, period);
-            return ResponseEntity.status(HttpStatus.CREATED).body(budget);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        Budget budget = budgetService.createBudget(user, name, description, limitAmount, period);
+        return ResponseEntity.status(HttpStatus.CREATED).body(budget);
     }
     
     @GetMapping
     public ResponseEntity<?> getAllBudgets(Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            List<Budget> budgets = budgetService.getAllBudgetsForUser(user);
-            return ResponseEntity.ok(budgets);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        List<Budget> budgets = budgetService.getAllBudgetsForUser(user);
+        return ResponseEntity.ok(budgets);
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<?> getBudgetById(@PathVariable Long id, Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            Budget budget = budgetService.getBudgetById(id, user);
-            return ResponseEntity.ok(budget);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        Budget budget = budgetService.getBudgetById(id, user);
+        return ResponseEntity.ok(budget);
     }
     
     @GetMapping("/period/{period}")
     public ResponseEntity<?> getBudgetsByPeriod(@PathVariable String period, Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            List<Budget> budgets = budgetService.getBudgetsByPeriod(user, period);
-            return ResponseEntity.ok(budgets);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        List<Budget> budgets = budgetService.getBudgetsByPeriod(user, period);
+        return ResponseEntity.ok(budgets);
+    }
+    
+    @GetMapping("/search/{name}")
+    public ResponseEntity<?> searchBudgetsByName(@PathVariable String name, Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        List<Budget> budgets = budgetService.searchBudgetsByName(user, name);
+        return ResponseEntity.ok(budgets);
+    }
+    
+    @GetMapping("/count")
+    public ResponseEntity<?> getBudgetCount(Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        long count = budgetService.getBudgetCount(user);
+        Map<String, Long> response = new HashMap<>();
+        response.put("totalBudgets", count);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/summary/spent")
+    public ResponseEntity<?> getBudgetSummary(Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        Map<String, Object> summary = budgetService.getBudgetSummary(user);
+        return ResponseEntity.ok(summary);
     }
     
     @PutMapping("/{id}")
@@ -91,30 +90,29 @@ public class BudgetController {
             @RequestParam BigDecimal limitAmount,
             @RequestParam String period,
             Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            Budget budget = budgetService.updateBudget(id, user, name, description, limitAmount, period);
-            return ResponseEntity.ok(budget);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        Budget budget = budgetService.updateBudget(id, user, name, description, limitAmount, period);
+        return ResponseEntity.ok(budget);
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBudget(@PathVariable Long id, Authentication authentication) {
-        try {
-            AppUser user = getUserFromAuthentication(authentication);
-            budgetService.deleteBudget(id, user);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Budget deleted successfully");
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
+        AppUser user = getUserFromAuthentication(authentication);
+        budgetService.deleteBudget(id, user);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Budget deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+    
+    @DeleteMapping
+    public ResponseEntity<?> deleteMultipleBudgets(
+            @RequestBody List<Long> budgetIds,
+            Authentication authentication) {
+        AppUser user = getUserFromAuthentication(authentication);
+        budgetService.deleteMultipleBudgets(user, budgetIds);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Budgets deleted successfully");
+        return ResponseEntity.ok(response);
     }
     
     private AppUser getUserFromAuthentication(Authentication authentication) {
