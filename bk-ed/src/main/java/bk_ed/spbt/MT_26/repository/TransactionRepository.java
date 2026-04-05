@@ -16,6 +16,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findByUser(AppUser user);
     Optional<Transaction> findByIdAndUser(Long id, AppUser user);
     List<Transaction> findByUserAndType(AppUser user, String type);
+    List<Transaction> findByUserAndDescriptionContainingIgnoreCase(AppUser user, String description);
+    long countByUser(AppUser user);
     
     @Query("SELECT t FROM Transaction t WHERE t.user = :user AND t.transactionDate >= :startDate AND t.transactionDate <= :endDate")
     List<Transaction> findByUserAndDateRange(@Param("user") AppUser user, 
