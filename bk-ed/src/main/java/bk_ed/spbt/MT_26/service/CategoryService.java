@@ -47,4 +47,22 @@ public class CategoryService {
         Category category = getCategoryById(categoryId, user);
         categoryRepository.delete(category);
     }
+    
+    public List<Category> searchCategoriesByName(AppUser user, String name) {
+        return categoryRepository.findByUserAndNameContainingIgnoreCase(user, name);
+    }
+    
+    public long getCategoryCount(AppUser user) {
+        return categoryRepository.countByUser(user);
+    }
+    
+    public void deleteMultipleCategories(AppUser user, List<Long> categoryIds) {
+        for (Long categoryId : categoryIds) {
+            deleteCategory(categoryId, user);
+        }
+    }
+    
+    public List<Category> getActiveCategoriesForUser(AppUser user) {
+        return categoryRepository.findByUser(user);
+    }
 }
