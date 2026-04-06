@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -77,6 +79,42 @@ public class TransactionService {
         Transaction transaction = getTransactionById(transactionId, user);
         transactionRepository.delete(transaction);
     }
+    
+    public List<Transaction> searchTransactionsByDescription(AppUser user, String description) {
+        return transactionRepository.findByUserAndDescriptionContainingIgnoreCase(user, description);
+    }
+    
+    public long getTransactionCount(AppUser user) {
+        return transactionRepository.countByUser(user);
+    }
+    
+    public void deleteMultipleTransactions(AppUser user, List<Long> transactionIds) {
+        for (Long transactionId : transactionIds) {
+            deleteTransaction(transactionId, user);
+        }
+    }
+    
+    public Map<String, Object> getMonthlySummary(AppUser user) {
+        List<Transaction> transactions = getAllTransactionsForUser(user);
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("totalTransactions", transactions.size());
+        summary.put("totalIncome", getTotalIncome(user));
+        summary.put("totalExpenses", getTotalExpenses(user));
+        summary.put("balance", getBalance(user));
+        return summary;
+    }
+    
+    public BigDecimal getAverageTransactionAmount(AppUser user) {
+        List<Transaction> transactions = getAllTransactionsForUser(user);
+        if (transactions.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        BigDecimal sum = transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return sum.divide(new BigDecimal(transactions.size()), 2, java.math.RoundingMode.HALF_UP);
+    }
+    
     
     public BigDecimal getTotalIncome(AppUser user) {
         List<Transaction> transactions = transactionRepository.findByUserAndType(user, "INCOME");
