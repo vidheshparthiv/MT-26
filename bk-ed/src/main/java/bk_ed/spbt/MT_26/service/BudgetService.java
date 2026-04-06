@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -57,5 +59,27 @@ public class BudgetService {
     public void deleteBudget(Long budgetId, AppUser user) {
         Budget budget = getBudgetById(budgetId, user);
         budgetRepository.delete(budget);
+    }
+    
+    public List<Budget> searchBudgetsByName(AppUser user, String name) {
+        return budgetRepository.findByUserAndNameContainingIgnoreCase(user, name);
+    }
+    
+    public long getBudgetCount(AppUser user) {
+        return budgetRepository.countByUser(user);
+    }
+    
+    public void deleteMultipleBudgets(AppUser user, List<Long> budgetIds) {
+        for (Long budgetId : budgetIds) {
+            deleteBudget(budgetId, user);
+        }
+    }
+    
+    public Map<String, Object> getBudgetSummary(AppUser user) {
+        List<Budget> budgets = getAllBudgetsForUser(user);
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("totalBudgets", budgets.size());
+        summary.put("budgets", budgets);
+        return summary;
     }
 }
