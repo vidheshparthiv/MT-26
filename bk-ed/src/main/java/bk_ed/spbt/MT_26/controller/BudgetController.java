@@ -51,14 +51,12 @@ public class BudgetController {
         Budget budget = budgetService.getBudgetById(id, user);
         return ResponseEntity.ok(budget);
     }
-    
     @GetMapping("/period/{period}")
     public ResponseEntity<?> getBudgetsByPeriod(@PathVariable String period, Authentication authentication) {
         AppUser user = getUserFromAuthentication(authentication);
         List<Budget> budgets = budgetService.getBudgetsByPeriod(user, period);
         return ResponseEntity.ok(budgets);
-    }
-    
+    } 
     @GetMapping("/search/{name}")
     public ResponseEntity<?> searchBudgetsByName(@PathVariable String name, Authentication authentication) {
         AppUser user = getUserFromAuthentication(authentication);
