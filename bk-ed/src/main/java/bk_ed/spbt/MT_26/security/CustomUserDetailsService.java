@@ -1,5 +1,4 @@
 package bk_ed.spbt.MT_26.security;
-
 import bk_ed.spbt.MT_26.entity.AppUser;
 import bk_ed.spbt.MT_26.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
