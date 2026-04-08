@@ -2,7 +2,6 @@ package bk_ed.spbt.MT_26.service;
 
 import bk_ed.spbt.MT_26.entity.AppUser;
 import bk_ed.spbt.MT_26.entity.Budget;
-import bk_ed.spbt.MT_26.entity.Transaction;
 import bk_ed.spbt.MT_26.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,6 @@ public class BudgetService {
     
     @Autowired
     private BudgetRepository budgetRepository;
-    
-    @Autowired
-    private TransactionService transactionService;
     
     public Budget createBudget(AppUser user, String name, String description, BigDecimal limitAmount, String period) {
         if (budgetRepository.findByUserAndName(user, name).isPresent()) {
