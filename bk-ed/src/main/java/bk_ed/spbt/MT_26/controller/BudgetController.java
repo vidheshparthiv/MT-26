@@ -63,7 +63,6 @@ public class BudgetController {
         List<Budget> budgets = budgetService.searchBudgetsByName(user, name);
         return ResponseEntity.ok(budgets);
     }
-    
     @GetMapping("/count")
     public ResponseEntity<?> getBudgetCount(Authentication authentication) {
         AppUser user = getUserFromAuthentication(authentication);
