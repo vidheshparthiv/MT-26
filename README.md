@@ -243,7 +243,6 @@ curl -X POST http://localhost:8080/auth/login \
 curl -X GET http://localhost:8080/protected/user-info \
   -H "Authorization: Bearer <your-jwt-token>"
 ```
-
 ---
 
 ## Configuration Details
