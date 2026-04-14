@@ -246,7 +246,6 @@ curl -X GET http://localhost:8080/protected/user-info \
 ---
 
 ## Configuration Details
-
 ### JWT Configuration
 
 - **Secret Key**: Configured in `application.properties` - keep this secure and use environment variables in production
