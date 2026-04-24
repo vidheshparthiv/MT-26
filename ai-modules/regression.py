@@ -8,9 +8,7 @@ y = monthly['total_expense']
 
 tscv = TimeSeriesSplit(n_splits=5)
 model = LinearRegression()
-
 scores = cross_val_score(model, X, y, cv=tscv, scoring='r2')
-
 print(f"R² per fold : {scores.round(3)}")
 print(f"Mean R²     : {scores.mean():.4f}")
 print(f"Std Dev     : {scores.std():.4f}")
